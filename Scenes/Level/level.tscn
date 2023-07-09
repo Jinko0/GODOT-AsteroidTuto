@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://sstfnnvpopof"]
+
+[ext_resource type="PackedScene" uid="uid://bvlpgcc6s88gj" path="res://Scenes/Player/player.tscn" id="1_yrpui"]
+[ext_resource type="Script" path="res://Scenes/Level/Scripts/ProjectileFactory.gd" id="2_3jyxu"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_yrpui")]
+position = Vector2(251, 119)
+
+[node name="ProjectileFactory" type="Node2D" parent="."]
+script = ExtResource("2_3jyxu")
+
+[connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]

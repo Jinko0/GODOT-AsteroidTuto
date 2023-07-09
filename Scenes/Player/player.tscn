@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvlpgcc6s88gj"]
+[gd_scene load_steps=4 format=3 uid="uid://bvlpgcc6s88gj"]
 
 [ext_resource type="Texture2D" uid="uid://qbi0h7xkt8dj" path="res://Scenes/Player/Sprites/Ship.png" id="1_k843t"]
 [ext_resource type="Script" path="res://Scenes/Player/Scripts/player.gd" id="1_rarga"]
+[ext_resource type="PackedScene" uid="uid://c7yhs00jrs52l" path="res://Scenes/Projectile/projectile.tscn" id="2_3o3nt"]
 
 [node name="Player" type="CharacterBody2D"]
-position = Vector2(211, 122)
+z_index = 1
 script = ExtResource("1_rarga")
+projectile_scene = ExtResource("2_3o3nt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_k843t")

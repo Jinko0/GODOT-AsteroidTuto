@@ -1,15 +1,17 @@
 extends CharacterBody2D
 
-var max_speed : float = 200.0
-var speed : float = 0.0
-
 @export_range(0.0, 1.0) var accel_factor : float = 0.1
 @export_range(0.0, 1.0) var rotation_accel_factor : float = 0.1
+
+@export var projectile_scene : PackedScene
+
+@export var max_speed : float = 200.0
+var speed : float = 0.0
 
 var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 
-
+signal projectile_fired(projectile)
 
 func _physics_process(delta: float) -> void:
 	move()
@@ -21,6 +23,17 @@ func _input(event: InputEvent) -> void:
 	
 	if direction != Vector2.ZERO:
 		last_direction = direction
+	
+	if event.is_action_pressed("fire"):
+		fire()
+
+
+func fire() -> void:
+	var projectile = projectile_scene.instantiate()
+	# Raccourcis pour projectile.postion = global_postion et projectile.rotation = rotation. 
+	projectile.transform = global_transform 
+	projectile_fired.emit(projectile)
+
 
 func move() -> void:
 	if direction == Vector2.ZERO:
@@ -30,6 +43,7 @@ func move() -> void:
 	
 	velocity = last_direction * speed
 	move_and_slide()
+
 
 func rotate_toward_mouse() -> void:
 	var mouse_pos = get_global_mouse_position()
