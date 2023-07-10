@@ -13,7 +13,7 @@ var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 
 signal projectile_fired(projectile)
-
+signal destroyed
 
 func _physics_process(delta: float) -> void:
 	move()
@@ -54,4 +54,5 @@ func rotate_toward_mouse() -> void:
 
 
 func destroy() -> void:
+	destroyed.emit()
 	queue_free()

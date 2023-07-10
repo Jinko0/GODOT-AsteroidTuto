@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://sstfnnvpopof"]
+[gd_scene load_steps=6 format=3 uid="uid://sstfnnvpopof"]
 
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/level.gd" id="1_u8yvh"]
 [ext_resource type="PackedScene" uid="uid://bvlpgcc6s88gj" path="res://Scenes/Player/player.tscn" id="1_yrpui"]
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/ProjectileFactory.gd" id="2_3jyxu"]
 [ext_resource type="PackedScene" uid="uid://d0dydooje2m6b" path="res://Scenes/Asteroid/asteroid.tscn" id="3_ghm36"]
+[ext_resource type="Texture2D" uid="uid://bgrlpt88ui3r3" path="res://Scenes/Level/Sprites/Background.png" id="5_wavh3"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_u8yvh")
@@ -14,10 +15,22 @@ position = Vector2(223, 128)
 
 [node name="ProjectileFactory" type="Node2D" parent="."]
 script = ExtResource("2_3jyxu")
+metadata/_edit_lock_ = true
 
-[node name="Border" type="CanvasLayer" parent="."]
+[node name="Asteroids" type="Node2D" parent="."]
+unique_name_in_owner = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Border"]
+[node name="SpawnTimer" type="Timer" parent="Asteroids"]
+autostart = true
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(244, 137)
+texture = ExtResource("5_wavh3")
+
+[node name="BorderLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="BorderLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,15 +41,46 @@ theme_override_constants/margin_top = -20
 theme_override_constants/margin_right = -20
 theme_override_constants/margin_bottom = -20
 
-[node name="BorderRect" type="ReferenceRect" parent="Border/MarginContainer"]
+[node name="BorderRect" type="ReferenceRect" parent="BorderLayer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Asteroids" type="Node2D" parent="."]
+[node name="GameoverLayer" type="CanvasLayer" parent="."]
+
+[node name="Gameover" type="Control" parent="GameoverLayer"]
 unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
 
-[node name="SpawnTimer" type="Timer" parent="Asteroids"]
-autostart = true
+[node name="CenterContainer" type="CenterContainer" parent="GameoverLayer/Gameover"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
+[node name="VBoxContainer" type="VBoxContainer" parent="GameoverLayer/Gameover/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 65
+
+[node name="Label" type="Label" parent="GameoverLayer/Gameover/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "GAMEOVER
+"
+
+[node name="RetryButton" type="Button" parent="GameoverLayer/Gameover/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Retry"
+
+[connection signal="destroyed" from="Player" to="." method="_on_player_destroyed"]
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
 [connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="pressed" from="GameoverLayer/Gameover/CenterContainer/VBoxContainer/RetryButton" to="." method="_on_retry_button_pressed"]

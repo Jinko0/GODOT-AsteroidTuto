@@ -7,6 +7,7 @@ var screen_size := Vector2(screen_width, screen_height)
 
 @onready var asteroids_container = %Asteroids
 @onready var border_rect = %BorderRect
+@onready var gameover = %Gameover
 
 @export var asteroid_scene : PackedScene
 @export var spawn_circle_radius : float = 350.0
@@ -76,3 +77,11 @@ func _on_asteroid_destroyed(asteroid: Asteroid) -> void:
 
 func _on_spawn_timer_timeout():
 	spawn_asteroid_on_border()
+
+
+func _on_retry_button_pressed():
+	get_tree().reload_current_scene()
+
+
+func _on_player_destroyed():
+	gameover.set_visible(true)
