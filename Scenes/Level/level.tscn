@@ -35,4 +35,8 @@ layout_mode = 2
 [node name="Asteroids" type="Node2D" parent="."]
 unique_name_in_owner = true
 
+[node name="SpawnTimer" type="Timer" parent="Asteroids"]
+autostart = true
+
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
+[connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]

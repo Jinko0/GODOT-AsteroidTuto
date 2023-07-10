@@ -1,4 +1,5 @@
-extends Node2D
+extends Area2D
+class_name Projectile
 
 @export var speed : float = 400.0
 
@@ -7,3 +8,9 @@ extends Node2D
 func _physics_process(delta: float) -> void:
 	var velocity = direction * speed * delta
 	global_position += velocity
+
+
+func _on_area_entered(area):
+	if area is Asteroid:
+		area.destroy()
+		queue_free()
