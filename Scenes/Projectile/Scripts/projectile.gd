@@ -12,5 +12,6 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_entered(area):
 	if area is Asteroid:
-		area.destroy()
-		queue_free()
+		if !self.is_queued_for_deletion():
+			area.destroy()
+			queue_free()

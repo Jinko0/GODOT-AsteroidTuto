@@ -63,10 +63,9 @@ func spawn_asteroid(pos: Vector2, dir : Vector2, size: Asteroid.SIZE) -> void:
 func _on_asteroid_destroyed(asteroid: Asteroid) -> void:
 	if asteroid.size > 0:
 		var nb_spawn = randi_range(2,3)
-		print (nb_spawn)
 		
 		for i in range(nb_spawn):
-			var rot_deg = 90.0 + randfn(0.0, deg_to_rad(asteroid_direction_variance))
+			var rot_deg = 90.0 + randfn(0.0, asteroid_direction_variance)
 			var rnd_sign = [-1, 1].pick_random()
 			var rot = deg_to_rad(rot_deg * rnd_sign)
 			
