@@ -19,10 +19,9 @@ enum SIZE {
 			size = value
 			size_changed.emit()
 
-@export var speed : float = 200.0
-@export var torque : float = 50.0 #torque = force de rotation sur sois même
-
-@export var asteroid_size_array : Array[AsteroidSize]
+@export var asteroid_properties_array : Array[AsteroidProperties]
+var speed : float
+var torque : float #torque = force de rotation sur sois même.
 
 signal size_changed
 signal destroyed
@@ -31,8 +30,8 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		set_physics_process(false)
 		
-	size_changed.connect(update_size)
-	update_size()
+	size_changed.connect(update_asteroid_properties)
+	update_asteroid_properties()
 
 
 func _physics_process(delta: float) -> void:
@@ -41,12 +40,14 @@ func _physics_process(delta: float) -> void:
 	rotation_degrees += torque * delta
 
 
-func update_size() -> void:
-	assert(size in range(asteroid_size_array.size()), "the given size " + str(size) + " value isn't a valid asteroid size index")
-	var asteroid_size = asteroid_size_array[size]
+func update_asteroid_properties() -> void:
+	assert(size in range(asteroid_properties_array.size()), "the given size " + str(size) + " value isn't a valid asteroid properties index")
+	var asteroid_properties = asteroid_properties_array[size]
 	
-	sprite.texture = asteroid_size.texture
-	collision_shape.shape = asteroid_size.shape
+	sprite.texture = asteroid_properties.texture
+	collision_shape.shape = asteroid_properties.shape
+	speed = asteroid_properties.speed
+	torque = asteroid_properties.torque
 
 
 func destroy() -> void:
