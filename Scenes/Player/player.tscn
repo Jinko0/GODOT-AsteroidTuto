@@ -19,3 +19,9 @@ texture = ExtResource("1_k843t")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_v51sy")
+
+[node name="FireCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Gun" type="Marker2D" parent="."]
+position = Vector2(5, 0)

@@ -1,19 +1,28 @@
 extends CharacterBody2D
 class_name Player
 
+@onready var fire_cooldown_timer = $FireCooldownTimer
+@onready var gun = $Gun
+
 @export_range(0.0, 1.0) var accel_factor : float = 0.1
 @export_range(0.0, 1.0) var rotation_accel_factor : float = 0.1
 
 @export var projectile_scene : PackedScene
-
 @export var max_speed : float = 200.0
-var speed : float = 0.0
 
+@export var fire_cooldown : float = 0.5
+
+var speed : float = 0.0
 var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 
 signal projectile_fired(projectile)
 signal destroyed
+
+func _process(delta):
+	if Input.is_action_pressed("fire") && fire_cooldown_timer.is_stopped():
+		fire()
+
 
 func _physics_process(delta: float) -> void:
 	move()
@@ -25,15 +34,15 @@ func _input(event: InputEvent) -> void:
 	
 	if direction != Vector2.ZERO:
 		last_direction = direction
-	
-	if event.is_action_pressed("fire"):
-		fire()
 
 
 func fire() -> void:
+	fire_cooldown_timer.start(fire_cooldown)
+	
 	var projectile = projectile_scene.instantiate()
-	# Raccourcis pour projectile.postion = global_postion et projectile.rotation = rotation. 
-	projectile.transform = global_transform 
+	projectile.position = gun.global_position
+	projectile.rotation = rotation
+	
 	projectile_fired.emit(projectile)
 
 

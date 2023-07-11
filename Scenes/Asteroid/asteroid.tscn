@@ -40,6 +40,7 @@ torque = 20.0
 radius = 14.0
 
 [node name="Asteroid" type="Area2D"]
+z_index = 2
 collision_layer = 2
 script = ExtResource("1_h4qrm")
 asteroid_properties_array = Array[ExtResource("2_5sy2e")]([SubResource("Resource_86ayo"), SubResource("Resource_8din0"), SubResource("Resource_cb35t")])
