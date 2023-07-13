@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://sstfnnvpopof"]
+[gd_scene load_steps=7 format=3 uid="uid://sstfnnvpopof"]
 
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/level.gd" id="1_u8yvh"]
 [ext_resource type="PackedScene" uid="uid://bvlpgcc6s88gj" path="res://Scenes/Player/player.tscn" id="1_yrpui"]
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/ProjectileFactory.gd" id="2_3jyxu"]
 [ext_resource type="PackedScene" uid="uid://d0dydooje2m6b" path="res://Scenes/Asteroid/asteroid.tscn" id="3_ghm36"]
+[ext_resource type="Script" path="res://Scenes/Level/Scripts/ExplosionFactory.gd" id="5_3hya2"]
 [ext_resource type="Texture2D" uid="uid://bgrlpt88ui3r3" path="res://Scenes/Level/Sprites/Background.png" id="5_wavh3"]
 
 [node name="Level" type="Node2D"]
@@ -13,7 +14,7 @@ asteroid_scene = ExtResource("3_ghm36")
 [node name="Player" parent="." instance=ExtResource("1_yrpui")]
 position = Vector2(223, 128)
 
-[node name="ProjectileFactory" type="Node2D" parent="."]
+[node name="ProjectileFactory" type="Node" parent="."]
 script = ExtResource("2_3jyxu")
 metadata/_edit_lock_ = true
 
@@ -22,6 +23,9 @@ unique_name_in_owner = true
 
 [node name="SpawnTimer" type="Timer" parent="Asteroids"]
 autostart = true
+
+[node name="ExplosionFactory" type="Node" parent="Asteroids"]
+script = ExtResource("5_3hya2")
 
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -1
@@ -81,6 +85,5 @@ layout_mode = 2
 text = "Retry"
 
 [connection signal="destroyed" from="Player" to="." method="_on_player_destroyed"]
-[connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
 [connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="GameoverLayer/Gameover/CenterContainer/VBoxContainer/RetryButton" to="." method="_on_retry_button_pressed"]

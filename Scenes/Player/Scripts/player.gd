@@ -16,7 +16,6 @@ var speed : float = 0.0
 var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 
-signal projectile_fired(projectile)
 signal destroyed
 
 func _process(delta):
@@ -42,8 +41,7 @@ func fire() -> void:
 	var projectile = projectile_scene.instantiate()
 	projectile.position = gun.global_position
 	projectile.rotation = rotation
-	
-	projectile_fired.emit(projectile)
+	EVENTS.projectile_fired.emit(projectile)
 
 
 func move() -> void:

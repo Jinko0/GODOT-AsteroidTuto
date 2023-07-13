@@ -5,3 +5,4 @@ class_name AsteroidProperties
 @export var shape : Shape2D
 @export var speed : float
 @export var torque : float
+@export var hit_points : int

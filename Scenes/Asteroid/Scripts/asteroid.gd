@@ -19,9 +19,12 @@ enum SIZE {
 			size = value
 			size_changed.emit()
 
+@export var explosion_scene : PackedScene
+
 @export var asteroid_properties_array : Array[AsteroidProperties]
 var speed : float
 var torque : float #torque = force de rotation sur sois même.
+var hit_points : int
 
 signal size_changed
 signal destroyed
@@ -48,6 +51,17 @@ func update_asteroid_properties() -> void:
 	collision_shape.shape = asteroid_properties.shape
 	speed = asteroid_properties.speed
 	torque = asteroid_properties.torque
+	hit_points = asteroid_properties.hit_points
+
+
+func hit(damage) -> void:
+	var explosion = explosion_scene.instantiate()
+	explosion.position = global_position
+	EVENTS.explosion_emited.emit(explosion)
+	
+	hit_points -= damage
+	if hit_points <= 0:
+		destroy()
 
 
 func destroy() -> void:
