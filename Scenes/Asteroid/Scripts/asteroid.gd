@@ -54,9 +54,9 @@ func update_asteroid_properties() -> void:
 	hit_points = asteroid_properties.hit_points
 
 
-func hit(damage) -> void:
+func hit(damage, position) -> void:
 	var explosion = explosion_scene.instantiate()
-	explosion.position = global_position
+	explosion.position = position
 	EVENTS.explosion_emited.emit(explosion)
 	
 	hit_points -= damage
@@ -71,4 +71,4 @@ func destroy() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
-		body.destroy()
+		body.hit()

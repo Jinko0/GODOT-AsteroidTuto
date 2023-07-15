@@ -13,6 +13,10 @@ asteroid_scene = ExtResource("3_ghm36")
 
 [node name="Player" parent="." instance=ExtResource("1_yrpui")]
 position = Vector2(223, 128)
+accel_factor = 0.1
+rotation_accel_factor = 0.1
+max_speed = 200.0
+fire_cooldown = 0.5
 
 [node name="ProjectileFactory" type="Node" parent="."]
 script = ExtResource("2_3jyxu")

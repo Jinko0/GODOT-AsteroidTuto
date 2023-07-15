@@ -1,8 +1,11 @@
 extends CharacterBody2D
 class_name Player
 
+@onready var sprite = $Sprite2D
+@onready var animation_player = $AnimationPlayer
 @onready var fire_cooldown_timer = $FireCooldownTimer
 @onready var gun = $Gun
+@onready var invincible_frame_timer = $InvincibleFrameTimer
 
 @export_range(0.0, 1.0) var accel_factor : float = 0.1
 @export_range(0.0, 1.0) var rotation_accel_factor : float = 0.1
@@ -60,6 +63,15 @@ func rotate_toward_mouse() -> void:
 	rotation = lerp_angle(rotation, angle, rotation_accel_factor)
 
 
+func hit() -> void:
+	animation_player.play("flash")
+	invincible_frame_timer.start()
+
+
 func destroy() -> void:
 	destroyed.emit()
 	queue_free()
+
+
+func _on_invincible_frame_timer_timeout():
+	animation_player.play("RESET")
